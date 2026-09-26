@@ -4,7 +4,7 @@ import { getConfig } from '@/lib/config';
 export default function Home() {
   const { author, social } = getConfig();
   return <>
-    <header className="topbar"><a className="wordmark" href="#">Xiaoyan Su</a><nav aria-label="Main navigation"><a href="#agentic-aigc">Agentic AIGC</a><a href="#cua-agent">CUA Agent</a><a href="#game-agent">Game Agent</a></nav></header>
+    <header className="topbar"><a className="wordmark" href="#">Xiaoyan Su</a><nav aria-label="Main navigation"><a href="#multimodal-coding">Multimodal Coding</a><a href="#cua-agent">CUA Agent</a><a href="#game-agent">Game Agent</a></nav></header>
     <main id="main" className="layout">
       <aside className="profile" aria-label="Profile">
         <Image className="avatar" src="/assets/avatar.webp" alt="Personal avatar: a white dog wearing glasses at a desk" width={640} height={637} priority />
@@ -13,10 +13,10 @@ export default function Home() {
         <a className="institution" href="https://hkust-gz.edu.cn/">The Hong Kong University<br/>of Science and Technology<br/>(Guangzhou)</a>
         <p className="shortname">HKUST(GZ)</p>
         <div className="profile-links"><a href={social.github as string}>GitHub</a>{social.google_scholar && <a href={social.google_scholar as string}>Google Scholar</a>}</div>
-        <p className="interests">Agentic AIGC<br/>CUA Agent<br/>Game Agent</p>
+        <p className="interests">Multimodal Coding<br/>CUA Agent<br/>Game Agent</p>
       </aside>
       <div className="content directions">
-        <section id="agentic-aigc" className="direction"><h2>Agentic AIGC</h2><h3 className="subsection-label"><PaperIcon />Publications</h3>
+        <section id="multimodal-coding" className="direction"><h2>Multimodal Coding</h2><h3 className="subsection-label"><PaperIcon />Publications</h3>
           <article className="paper-card"><p className="venue">ICML 2026 <span className="topic-tag">Benchmark</span></p><h3><a href="https://arxiv.org/abs/2605.15677">VCG-Bench: Towards A Unified Visual-Centric Benchmark for Structured Generation and Editing</a></h3><p className="description">A benchmark for generating and editing structured, executable diagrams with vision-language models.</p><p className="authors"><strong>Xiaoyan Su</strong>, Peijie Dong, Zhenheng Tang, Song Tang, Yuyao Zhai, Kaitao Lin, Liang Chen, Yuhang Gai, Yuyu Luo, Qiang Wang, Xiaowen Chu</p><div className="resource-links"><a href="https://arxiv.org/abs/2605.15677">Paper</a><a href="https://sxy1499894281.github.io/VCG-Bench/">Project page</a><a href="https://huggingface.co/datasets/sxy1620348809/VCG-Bench">Dataset</a></div></article>
           <h3 className="subsection-label projects-heading"><GitHubIcon />GitHub Projects</h3><div className="project-list"><Project href="https://github.com/sxy1499894281/VCG-Bench" description="Code, dataset, and evaluation tools for structured diagram generation and editing." name="VCG-Bench" stars="5" topic="Benchmark" /><Project href="https://github.com/HKUSTDial/DataMagic" description="An AI agent system that turns tables into narrated, animated data stories." name="DataMagic" stars="266" topic="Agent System" /><Project href="https://github.com/sxy1499894281/drawio-reconstruction-skill" description="An agent skill for turning diagram images into editable Draw.io files." name="Draw.io Reconstruction Skill" stars="28" topic="Agent Skill" /></div>
         </section>
