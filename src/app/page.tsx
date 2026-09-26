@@ -4,7 +4,7 @@ import { getConfig } from '@/lib/config';
 export default function Home() {
   const { author, social } = getConfig();
   return <>
-    <header className="topbar"><a className="wordmark" href="#">Xiaoyan Su</a><nav aria-label="Main navigation"><a href="#github">GitHub</a><a href="#publications">Publications</a></nav></header>
+    <header className="topbar"><a className="wordmark" href="#">Xiaoyan Su</a><nav aria-label="Main navigation"><a href="#agentic-aigc">Agentic AIGC</a><a href="#cua-agent">CUA Agent</a><a href="#game-agent">Game Agent</a></nav></header>
     <main id="main" className="layout">
       <aside className="profile" aria-label="Profile">
         <Image className="avatar" src="/assets/avatar.webp" alt="Personal avatar: a white dog wearing glasses at a desk" width={640} height={637} priority />
@@ -15,20 +15,21 @@ export default function Home() {
         <div className="profile-links"><a href={social.github as string}>GitHub</a>{social.google_scholar && <a href={social.google_scholar as string}>Google Scholar</a>}</div>
         <p className="interests">Agentic AIGC<br/>GUI Agent<br/>Game Agent</p>
       </aside>
-      <div className="content">
-        <section id="github"><h2>GitHub</h2><article className="project github-card"><h3><a href={social.github as string}>github.com/sxy1499894281 ↗</a></h3><p>Code, datasets, and research tools.</p><div className="resource-links"><a href="https://github.com/sxy1499894281/VCG-Bench">VCG-Bench</a><a href="https://github.com/sxy1499894281/drawio-reconstruction-skill">Draw.io Reconstruction Skill</a></div></article></section>
-        <section id="publications"><h2>Selected publication</h2>
-          <article>
-            <p className="venue">ICML 2026</p>
-            <h3><a href="https://arxiv.org/abs/2605.15677">VCG-Bench: Towards A Unified Visual-Centric Benchmark for Structured Generation and Editing</a></h3>
-            <p className="authors"><strong>Xiaoyan Su</strong>, Peijie Dong, Zhenheng Tang, Song Tang, Yuyao Zhai, Kaitao Lin, Liang Chen, Yuhang Gai, Yuyu Luo, Qiang Wang, Xiaowen Chu</p>
-            <a className="paper-image" href="https://sxy1499894281.github.io/VCG-Bench/" aria-label="Explore the VCG-Bench project"><Image src="/assets/vcg-overview.webp" width={1530} height={793} alt="VCG-Bench compares pixel-based diagram generation with executable, editable diagram representations" /></a>
-            <p className="description">Evaluating whether vision-language models can reconstruct diagrams as executable mxGraph XML and edit them through natural-language instructions.</p>
-            <div className="resource-links"><a href="https://arxiv.org/abs/2605.15677">Paper</a><a href="https://github.com/sxy1499894281/VCG-Bench">Code</a><a href="https://huggingface.co/datasets/sxy1620348809/VCG-Bench">Dataset</a><a href="https://sxy1499894281.github.io/VCG-Bench/">Project page</a><a href="/publications.bib" download>BibTeX</a></div>
-          </article>
+      <div className="content directions">
+        <section id="agentic-aigc" className="direction"><h2><span className="direction-icon" aria-hidden="true">✦</span> Agentic AIGC</h2><div className="subsection-label">Publications</div>
+          <article className="paper-card"><p className="venue">ICML 2026</p><h3><a href="https://arxiv.org/abs/2605.15677">VCG-Bench: Towards A Unified Visual-Centric Benchmark for Structured Generation and Editing</a></h3><p className="authors"><strong>Xiaoyan Su</strong>, Peijie Dong, Zhenheng Tang, Song Tang, Yuyao Zhai, Kaitao Lin, Liang Chen, Yuhang Gai, Yuyu Luo, Qiang Wang, Xiaowen Chu</p><div className="resource-links"><a href="https://arxiv.org/abs/2605.15677">Paper</a><a href="https://sxy1499894281.github.io/VCG-Bench/">Project page</a><a href="https://huggingface.co/datasets/sxy1620348809/VCG-Bench">Dataset</a></div></article>
+          <div className="subsection-label">GitHub Projects</div><div className="project-list"><Project href="https://github.com/sxy1499894281/VCG-Bench" name="VCG-Bench" stars="5" /><Project href="https://github.com/HKUSTDial/DataMagic" name="DataMagic" stars="266" /><Project href="https://github.com/sxy1499894281/drawio-reconstruction-skill" name="Draw.io Reconstruction Skill" stars="28" /></div>
+        </section>
+        <section id="cua-agent" className="direction"><h2><span className="direction-icon" aria-hidden="true">⌘</span> CUA Agent</h2><div className="subsection-label">Publications</div><p className="empty-note">Coming soon.</p><div className="subsection-label">GitHub Projects</div><div className="project-list"><Project href="https://github.com/sxy1499894281/AutoAppWorld" name="AutoAppWorld" stars="2" /><Project href="https://github.com/sxy1499894281/agentic_drawio" name="Agentic Draw.io" stars="0" /></div>
+        </section>
+        <section id="game-agent" className="direction"><h2><span className="direction-icon" aria-hidden="true">◈</span> Game Agent</h2><div className="subsection-label">Publications</div><p className="empty-note">Coming soon.</p><div className="subsection-label">GitHub Projects</div><div className="project-list"><Project href="https://github.com/sxy1499894281/cutscene_agent" name="Cutscene Agent" stars="0" /><Project href="https://github.com/sxy1499894281/VAGEN" name="VAGEN" stars="0" /></div>
         </section>
       </div>
     </main>
     <footer><span>© 2026 Xiaoyan Su</span><a href="https://github.com/xyjoey/PRISM">Based on PRISM</a></footer>
   </>;
+}
+
+function Project({ href, name, stars }: { href: string; name: string; stars: string }) {
+  return <a className="project-row" href={href}><span>{name}</span><span className="stars" aria-label={`${stars} GitHub stars`}>★ {stars}</span></a>;
 }
