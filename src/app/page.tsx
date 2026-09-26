@@ -1,14 +1,10 @@
 import Image from 'next/image';
-import fs from 'node:fs';
-import path from 'node:path';
-import Markdown from 'react-markdown';
 import { getConfig } from '@/lib/config';
 
 export default function Home() {
   const { author, social } = getConfig();
-  const bio = fs.readFileSync(path.join(process.cwd(), 'content/bio.md'), 'utf8');
   return <>
-    <header className="topbar"><a className="wordmark" href="#">Xiaoyan Su</a><nav aria-label="Main navigation"><a href="#about">About</a><a href="#publications">Publications</a><a href="#opensource">Open source</a></nav></header>
+    <header className="topbar"><a className="wordmark" href="#">Xiaoyan Su</a><nav aria-label="Main navigation"><a href="#github">GitHub</a><a href="#publications">Publications</a></nav></header>
     <main id="main" className="layout">
       <aside className="profile" aria-label="Profile">
         <Image className="avatar" src="/assets/avatar.webp" alt="Personal avatar: a white dog wearing glasses at a desk" width={640} height={637} priority />
@@ -16,12 +12,10 @@ export default function Home() {
         <p className="role">{author.title}</p>
         <a className="institution" href="https://hkust-gz.edu.cn/">The Hong Kong University<br/>of Science and Technology<br/>(Guangzhou)</a>
         <p className="shortname">HKUST(GZ)</p>
-        <div className="profile-links"><a href={`mailto:${social.email}`}>Email</a><a href={social.github as string}>GitHub</a>{social.google_scholar && <a href={social.google_scholar as string}>Google Scholar</a>}</div>
-        <a className="email" href={`mailto:${social.email}`}>{social.email}</a>
-        <p className="interests">Multimodal learning<br/>Structured generation<br/>Editable diagrams</p>
+        <div className="profile-links"><a href={social.github as string}>GitHub</a>{social.google_scholar && <a href={social.google_scholar as string}>Google Scholar</a>}</div>
       </aside>
       <div className="content">
-        <section id="about"><h2>About</h2><div className="prose"><Markdown>{bio}</Markdown></div></section>
+        <section id="github"><h2>GitHub</h2><article className="project github-card"><h3><a href={social.github as string}>github.com/sxy1499894281 ↗</a></h3><p>Code, datasets, and research tools.</p><div className="resource-links"><a href="https://github.com/sxy1499894281/VCG-Bench">VCG-Bench</a><a href="https://github.com/sxy1499894281/drawio-reconstruction-skill">Draw.io Reconstruction Skill</a></div></article></section>
         <section id="publications"><h2>Selected publication</h2>
           <article>
             <p className="venue">ICML 2026</p>
@@ -32,7 +26,6 @@ export default function Home() {
             <div className="resource-links"><a href="https://arxiv.org/abs/2605.15677">Paper</a><a href="https://github.com/sxy1499894281/VCG-Bench">Code</a><a href="https://huggingface.co/datasets/sxy1620348809/VCG-Bench">Dataset</a><a href="https://sxy1499894281.github.io/VCG-Bench/">Project page</a><a href="/publications.bib" download>BibTeX</a></div>
           </article>
         </section>
-        <section id="opensource"><h2>Open source</h2><article className="project"><h3><a href="https://github.com/sxy1499894281/drawio-reconstruction-skill">Draw.io Reconstruction Skill <span aria-hidden="true">↗</span></a></h3><p>A workflow for reconstructing diagram images into editable Draw.io files, with iterative rendering and visual review.</p><p className="project-note">A companion tool to the VCG-Bench research release.</p></article></section>
       </div>
     </main>
     <footer><span>© 2026 Xiaoyan Su</span><a href="https://github.com/xyjoey/PRISM">Based on PRISM</a></footer>
