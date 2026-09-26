@@ -13,6 +13,7 @@ export default function Home() {
         <a className="institution" href="https://hkust-gz.edu.cn/">The Hong Kong University<br/>of Science and Technology<br/>(Guangzhou)</a>
         <p className="shortname">HKUST(GZ)</p>
         <div className="profile-links"><a href={social.github as string}>GitHub</a>{social.google_scholar && <a href={social.google_scholar as string}>Google Scholar</a>}</div>
+        <p className="interests">Agentic AIGC<br/>GUI Agent<br/>Game Agent</p>
       </aside>
       <div className="content">
         <section id="github"><h2>GitHub</h2><article className="project github-card"><h3><a href={social.github as string}>github.com/sxy1499894281 ↗</a></h3><p>Code, datasets, and research tools.</p><div className="resource-links"><a href="https://github.com/sxy1499894281/VCG-Bench">VCG-Bench</a><a href="https://github.com/sxy1499894281/drawio-reconstruction-skill">Draw.io Reconstruction Skill</a></div></article></section>
