@@ -13,7 +13,7 @@ export default function Home() {
         <p className="role">{author.title}</p>
         <a className="institution" href="https://hkust-gz.edu.cn/">The Hong Kong University<br/>of Science and Technology<br/>(Guangzhou)</a>
         <p className="shortname">HKUST(GZ)</p>
-        <div className="profile-links"><a href={social.github as string}>GitHub</a>{social.google_scholar && <a href={social.google_scholar as string}>Google Scholar</a>}</div>
+        <div className="profile-links"><a href={social.github as string} aria-label="GitHub" title="GitHub"><GitHubIcon /></a>{social.google_scholar && <a href={social.google_scholar as string} aria-label="Google Scholar" title="Google Scholar"><span className="scholar-icon" aria-hidden="true" /></a>}</div>
         <div className="interests" aria-label="Research directions"><a href="#multimodal-coding">Multimodal Coding</a><a href="#cua-agent">CUA Agent</a><a href="#game-agent">Game Agent</a></div>
       </aside>
       <div className="content directions">
