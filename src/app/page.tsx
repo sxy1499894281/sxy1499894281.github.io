@@ -14,7 +14,7 @@ export default function Home() {
         <a className="institution" href="https://hkust-gz.edu.cn/">The Hong Kong University<br/>of Science and Technology<br/>(Guangzhou)</a>
         <p className="shortname">HKUST(GZ)</p>
         <div className="profile-links"><a href={social.github as string}>GitHub</a>{social.google_scholar && <a href={social.google_scholar as string}>Google Scholar</a>}</div>
-        <p className="interests">Multimodal Coding<br/>CUA Agent<br/>Game Agent</p>
+        <div className="interests" aria-label="Research directions"><a href="#multimodal-coding">Multimodal Coding</a><a href="#cua-agent">CUA Agent</a><a href="#game-agent">Game Agent</a></div>
       </aside>
       <div className="content directions">
         <section id="about" className="direction"><h2>About</h2><div className="about-copy"><p>I am an <strong>incoming PhD student (Fall 2027)</strong> at The Hong Kong University of Science and Technology (Guangzhou), HKUST(GZ).</p><p>My research interests include <strong>Multimodal Coding</strong>, <strong>CUA Agent</strong>, and <strong>Game Agent</strong>.</p></div></section>
