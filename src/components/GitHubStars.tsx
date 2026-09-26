@@ -44,5 +44,5 @@ export default function GitHubStars({ repo, initialCount }: { repo: string; init
   }, [repo]);
 
   const status = source === 'github' ? 'Fetched from GitHub on this page load' : source === 'shields' ? 'GitHub stars via Shields.io; cached count may be delayed' : 'Snapshot from September 26, 2026; live count unavailable or loading';
-  return <a className="stars" href={`https://github.com/${repo}/stargazers`} aria-label={`${count} GitHub stars. ${status}`} title={status}><span aria-hidden="true">★</span> {count}</a>;
+  return <a className="stars" href={`https://github.com/${repo}`} aria-label={`${count} GitHub stars. ${status}`} title={status}><span aria-hidden="true">★</span> {count}</a>;
 }
