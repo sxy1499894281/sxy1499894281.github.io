@@ -1,0 +1,21 @@
+[site]
+title = "Xiaoyan Su"
+description = "Xiaoyan Su, incoming PhD student at HKUST(GZ), starting in Fall 2027."
+favicon = "/assets/avatar.webp"
+[author]
+name = "Xiaoyan Su"
+title = "Incoming PhD student · Fall 2027"
+institution = "The Hong Kong University of Science and Technology (Guangzhou)"
+avatar = "/assets/avatar.webp"
+[social]
+email = "xsu418@connect.hkust-gz.edu.cn"
+github = "https://github.com/sxy1499894281"
+google_scholar = "https://scholar.google.com/citations?user=73UtCDkAAAAJ"
+[features]
+enable_likes = false
+enable_one_page_mode = true
+[[navigation]]
+title = "About"
+type = "section"
+target = "about"
+href = "#about"
