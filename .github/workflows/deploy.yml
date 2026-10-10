@@ -1,0 +1,46 @@
+name: Deploy homepage and sync GitHub stars
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Monday 08:17 in Asia/Shanghai (UTC+8).
+    - cron: '17 0 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: homepage-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Refresh star snapshots from GitHub
+        run: npm run sync:stars -- --strict
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - run: npm test
+      - run: npm run lint
+      - run: npm run build
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+      - uses: actions/deploy-pages@v4
+        id: deployment
