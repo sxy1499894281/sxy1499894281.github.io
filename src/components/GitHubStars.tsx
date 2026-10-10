@@ -1,48 +1,49 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { fetchStarCount, type StarCount } from '@/lib/github-stars';
 
-export default function GitHubStars({ repo, initialCount }: { repo: string; initialCount: number }) {
-  const [count, setCount] = useState(initialCount.toLocaleString('en-US'));
-  const [source, setSource] = useState<'snapshot' | 'github' | 'shields'>('snapshot');
+const REFRESH_INTERVAL = 5 * 60 * 1000;
+
+export default function GitHubStars({ repo, initialCount, updatedAt }: { repo: string; initialCount: number; updatedAt: string }) {
+  const [stars, setStars] = useState<{ count: string; source: StarCount['source'] | 'snapshot'; checkedAt: string }>({
+    count: initialCount.toLocaleString('en-US'), source: 'snapshot', checkedAt: updatedAt,
+  });
 
   useEffect(() => {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 8000);
+    let refreshing = false;
+    let lastAttempt = 0;
+
     async function refresh() {
+      if (document.hidden || refreshing || Date.now() - lastAttempt < REFRESH_INTERVAL) return;
+      refreshing = true;
+      lastAttempt = Date.now();
       try {
-        const response = await fetch(`https://api.github.com/repos/${repo}`, {
-          signal: controller.signal,
-          headers: { Accept: 'application/vnd.github+json' },
-        });
-        if (!response.ok) throw new Error('GitHub unavailable');
-        const data = await response.json();
-        if (!Number.isInteger(data.stargazers_count) || data.stargazers_count < 0) throw new Error('Invalid count');
-        if (!controller.signal.aborted) {
-          setCount(data.stargazers_count.toLocaleString('en-US'));
-          setSource('github');
-        }
+        const result = await fetchStarCount(repo, controller.signal);
+        if (!controller.signal.aborted) setStars({ ...result, checkedAt: new Date().toISOString() });
       } catch {
-        // Shields caches GitHub counts without using the visitor's GitHub quota.
-        try {
-          const response = await fetch(`https://img.shields.io/github/stars/${repo}.json`, { signal: controller.signal });
-          if (!response.ok) return;
-          const data = await response.json();
-          if (!controller.signal.aborted && typeof data.value === 'string' && /^\d[\d,.]*[kMB]?$/.test(data.value)) {
-            setCount(data.value);
-            setSource('shields');
-          }
-        } catch {
-          // Keep the clearly dated snapshot if both services are unavailable.
-        }
+        // Keep the last successful count, including the automatically built snapshot.
       } finally {
-        clearTimeout(timeout);
+        refreshing = false;
       }
     }
+
     void refresh();
-    return () => { controller.abort(); clearTimeout(timeout); };
+    const interval = setInterval(() => void refresh(), REFRESH_INTERVAL);
+    document.addEventListener('visibilitychange', refresh);
+    return () => {
+      controller.abort();
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', refresh);
+    };
   }, [repo]);
 
-  const status = source === 'github' ? 'Fetched from GitHub on this page load' : source === 'shields' ? 'GitHub stars via Shields.io; cached count may be delayed' : 'Snapshot from September 26, 2026; live count unavailable or loading';
-  return <a className="stars" href={`https://github.com/${repo}`} aria-label={`${count} GitHub stars. ${status}`} title={status}><span aria-hidden="true">★</span> {count}</a>;
+  const checkedAt = stars.checkedAt.replace('T', ' ').replace(/\.\d{3}Z$/, ' UTC');
+  const status = stars.source === 'github'
+    ? `Fetched from GitHub at ${checkedAt}`
+    : stars.source === 'shields'
+      ? `GitHub stars via Shields.io; fetched at ${checkedAt}; cached count may be delayed`
+      : `GitHub snapshot from ${checkedAt}; live count unavailable or loading`;
+  return <a className="stars" href={`https://github.com/${repo}`} aria-label={`${stars.count} GitHub stars. ${status}`} title={status}><span aria-hidden="true">★</span> {stars.count}</a>;
 }

@@ -20,6 +20,7 @@ The build produces `out/`. To preview the production export: `python3 -m http.se
 - `content/config.toml`: identity, institution, email, GitHub, optional Google Scholar URL.
 - `content/bio.md`: research biography.
 - `src/app/page.tsx`: publication, resource links, and open-source project.
+- `content/github-stars.json`: repository list and dated fallback star counts; refreshed by `npm run sync:stars`.
 - `src/app/globals.css`: layout and light/dark theme.
 - `public/assets/`: user-provided avatar, paper image, self-hosted font.
 - `content/publications.bib` and `public/publications.bib`: keep both copies in sync.
@@ -28,7 +29,11 @@ The build produces `out/`. To preview the production export: `python3 -m http.se
 
 ## Deployment
 
-The public repository is `sxy1499894281/sxy1499894281.github.io`. Source code is stored on main. GitHub Pages publishes the compiled static site from the gh-pages branch. Run npm run build after edits, then publish the contents of out/ to gh-pages. The local Actions workflow is optional and is not enabled on GitHub.
+The public repository is `sxy1499894281/sxy1499894281.github.io`. Source code is stored on `main`. Set GitHub Pages' source to **GitHub Actions**. `.github/workflows/deploy.yml` fetches current star counts, runs tests and lint, builds the static site, and deploys it on every push to `main`, on manual dispatch, and hourly at minute 17. Scheduled runs may be delayed by GitHub. Public-repository schedules can be disabled after 60 days without repository activity; re-enable the workflow in Actions if this happens.
+
+The workflow uses GitHub's built-in `GITHUB_TOKEN` for authenticated requests; no personal token is published or required as a repository secret. A failed refresh stops deployment and preserves the last successful site. The fetched snapshot is included in the deployment without creating hourly source commits. To refresh a local preview, run `npm run sync:stars` before `npm run build` (optionally provide `GITHUB_TOKEN` through the environment to avoid anonymous API limits).
+
+In the browser, star counts refresh on page load, every five minutes while the page is visible, and when returning to a stale tab. GitHub requests and the Shields.io fallback each have an independent five-second timeout. If both fail, the last successful count remains visible, with its source and timestamp in the tooltip. Shields.io counts can be delayed by that service's cache. The site still displays the latest deployed snapshot with JavaScript disabled.
 
 Do not upload this entire repository into the profile README repository; it is a separate project.
 

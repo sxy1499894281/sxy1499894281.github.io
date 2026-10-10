@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import GitHubStars from '@/components/GitHubStars';
+import starSnapshots from '../../content/github-stars.json';
 import { getConfig } from '@/lib/config';
 
 export default function Home() {
@@ -20,7 +21,7 @@ export default function Home() {
         <section id="about" className="direction"><h2>About</h2><div className="about-copy"><p>I am an <strong>incoming PhD student (Fall 2027)</strong> at The Hong Kong University of Science and Technology (Guangzhou), HKUST(GZ).</p><p>I am a member of the <a href="https://github.com/HKUSTDial">Data Intelligence and Analytics Lab (DIAL)</a>, led by <a href="https://luoyuyu.vip/">Prof. Yuyu Luo</a>. The lab develops data intelligence systems at the intersection of data and AI.</p><p>My research interests include <strong>Multimodal Coding</strong>, <strong>CUA Agent</strong>, and <strong>Game Agent</strong>.</p></div></section>
         <section id="multimodal-coding" className="direction"><h2>Multimodal Coding</h2><div className="work-group"><h3 className="subsection-label"><PaperIcon />Publications</h3>
           <article className="paper-card"><h4 className="paper-title"><a href="https://arxiv.org/abs/2605.15677">VCG-Bench: Towards A Unified Visual-Centric Benchmark for Structured Generation and Editing</a></h4><p className="authors"><strong>Xiaoyan Su</strong>, Peijie Dong, Zhenheng Tang, Song Tang, Yuyao Zhai, Kaitao Lin, Liang Chen, Yuhang Gai, Yuyu Luo, Qiang Wang, Xiaowen Chu</p><p className="venue">ICML · 2026</p><p className="description">A benchmark for generating and editing structured, executable diagrams with vision-language models.</p><div className="paper-topics"><TopicTags topics={["Benchmark", "Diagram2Drawio"]} /></div><div className="resource-links"><a href="https://arxiv.org/abs/2605.15677">Paper</a><a href="https://sxy1499894281.github.io/VCG-Bench/">Project page</a><a href="https://huggingface.co/datasets/sxy1620348809/VCG-Bench">Dataset</a></div></article></div>
-          <div className="work-group"><h3 className="subsection-label projects-heading"><GitHubIcon />GitHub Projects</h3><div className="project-list"><Project href="https://github.com/sxy1499894281/VCG-Bench" description="Code, dataset, and evaluation tools for structured diagram generation and editing." name="VCG-Bench" stars="5" topics={["Benchmark", "Diagram2Drawio"]} /><Project href="https://github.com/HKUSTDial/DataMagic" description="An AI agent system that turns tables into narrated, animated data stories." name="DataMagic" stars="266" topics={["Agent System", "Remotion Video"]} /><Project href="https://github.com/sxy1499894281/drawio-reconstruction-skill" description="An agent skill for turning diagram images into editable Draw.io files." name="Draw.io Reconstruction Skill" stars="28" topics={["Agent Skill", "Diagram2Drawio"]} /></div></div>
+          <div className="work-group"><h3 className="subsection-label projects-heading"><GitHubIcon />GitHub Projects</h3><div className="project-list"><Project href="https://github.com/sxy1499894281/VCG-Bench" description="Code, dataset, and evaluation tools for structured diagram generation and editing." name="VCG-Bench" topics={["Benchmark", "Diagram2Drawio"]} /><Project href="https://github.com/HKUSTDial/DataMagic" description="An AI agent system that turns tables into narrated, animated data stories." name="DataMagic" topics={["Agent System", "Remotion Video"]} /><Project href="https://github.com/sxy1499894281/drawio-reconstruction-skill" description="An agent skill for turning diagram images into editable Draw.io files." name="Draw.io Reconstruction Skill" topics={["Agent Skill", "Diagram2Drawio"]} /></div></div>
         </section>
         {([{ id: 'cua-agent', name: 'CUA Agent' }, { id: 'game-agent', name: 'Game Agent' }]).map(direction => <section key={direction.id} id={direction.id} className="direction"><h2>{direction.name}</h2><div className="work-group"><h3 className="subsection-label"><PaperIcon />Publications</h3><div className="empty-slot" /></div><div className="work-group"><h3 className="subsection-label projects-heading"><GitHubIcon />GitHub Projects</h3><div className="empty-slot" /></div></section>)}
       </div>
@@ -29,8 +30,10 @@ export default function Home() {
   </>;
 }
 
-function Project({ href, name, stars, topics, description }: { href: string; name: string; stars: string; topics: string[]; description: string }) {
-  return <article className="project-row"><div className="project-top"><h4><a href={href}><GitHubIcon />{name}</a></h4><GitHubStars repo={href.replace("https://github.com/", "")} initialCount={Number(stars)} /></div><p className="project-description">{description}</p><TopicTags topics={topics} /></article>;
+function Project({ href, name, topics, description }: { href: string; name: string; topics: string[]; description: string }) {
+  const repo = href.replace("https://github.com/", "") as keyof typeof starSnapshots;
+  const snapshot = starSnapshots[repo];
+  return <article className="project-row"><div className="project-top"><h4><a href={href}><GitHubIcon />{name}</a></h4><GitHubStars repo={repo} initialCount={snapshot.count} updatedAt={snapshot.updatedAt} /></div><p className="project-description">{description}</p><TopicTags topics={topics} /></article>;
 }
 
 function TopicTags({ topics }: { topics: string[] }) {
